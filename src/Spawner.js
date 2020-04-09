@@ -1,23 +1,16 @@
 import Loot from './Loot';
 import Monster from './Monster';
 import Stairs from './Stairs';
+import imgs from './Images';
 
-const sword = new Image();
-sword.src = './img/sword.png';
-const health = new Image();
-health.src = './img/health.png';
-const coin = new Image();
-coin.src = './img/coin.png';
-const armor = new Image();
-armor.src = './img/armor.png';
-const ogre = new Image();
-ogre.src = './img/ogre.png';
-const dragon = new Image();
-dragon.src = './img/dragon.png';
-const slime = new Image();
-slime.src = './img/slime.png';
-const spider = new Image();
-spider.src = './img/spider.png';
+const {sword,
+        health,
+        coin,
+        armor,
+        ogre,
+        dragon,
+        slime,
+        spider} = imgs;
 
 const lootTable = [
     {name: 'Long Sword', img: sword, ascii: '/', offset: {x: 6, y: 3}},
@@ -63,7 +56,6 @@ class Spawner {
     }
 
     spawnStairs() {
-        console.log('spawned')
         let stairs = new Stairs(this.world.width - 10, this.world.height - 10, this.world.tileSize)
         this.world.add(stairs);
         this.world.moveToSpace(stairs);

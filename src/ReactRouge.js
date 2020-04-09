@@ -2,6 +2,7 @@ import React, {useRef, useEffect, useState} from 'react';
 import InputManager from './InputManager';
 import World from './World';
 import Spawner from './Spawner';
+import UseInterval from './setInterval';
 
 const ReactRouge = ({width, height, tileSize}) => {
 
@@ -10,12 +11,26 @@ const ReactRouge = ({width, height, tileSize}) => {
 
     const [world, setWorld] = useState(new World(width, height, tileSize))
 
+    
+
     const handleInput = (action, data) => {
         let newWorld = new World();
         Object.assign(newWorld, world);
-        newWorld.movePlayer(data.x, data.y);
+        newWorld.movePlayer(data.x, data.y, action);
         setWorld(newWorld);
     }
+
+    UseInterval(() => {
+        let newWorld = new World();
+        Object.assign(newWorld, world);
+        for (let i = 0; i < newWorld.entities.length; i++) {
+            if (newWorld.entities[i].walk) {
+                newWorld.entities[i].walk(newWorld.worldmap)
+                
+            } 
+            setWorld(newWorld);
+        }
+    }, 1000)
 
     useEffect(() => {
         let newWorld = new World();
@@ -29,11 +44,14 @@ const ReactRouge = ({width, height, tileSize}) => {
         for (let i = 0; i < newWorld.entities.length; i++) {
             let x = newWorld.entities[i].x;
             let y = newWorld.entities[i].y;
+            if (newWorld.entities[i].walk) {
+                newWorld.entities[i].walk(newWorld.worldmap)
+            }
             if (newWorld.worldmap[x][y] !== 0) {
-                console.log('not 0')
                 newWorld.entities.splice(i, 1)
             }
         }
+       
         setWorld(newWorld);
     }, [])
 
@@ -79,3 +97,4 @@ const ReactRouge = ({width, height, tileSize}) => {
     
 
 export default ReactRouge;
+

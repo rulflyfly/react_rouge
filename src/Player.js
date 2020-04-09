@@ -1,6 +1,7 @@
 import Entity from './Entity';
-const cat = new Image();
-cat.src = './img/player.png'
+import imgs from './Images';
+
+const { cat, cat_left } = imgs;
 
 class Player extends Entity {
 
@@ -11,7 +12,10 @@ class Player extends Entity {
         ascii: '@',
         health: 10,
         color: 'transparent',
-        img: cat
+        img: cat,
+        img_left: cat_left,
+        move_left: false,
+        move_right: true
     }
 
     move(dx, dy) { 

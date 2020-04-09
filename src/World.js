@@ -1,11 +1,8 @@
 import { Map } from 'rot-js'
 import Player from './Player';
+import imgs from './Images';
 
-const cat = new Image();
-cat.src = './img/player.png'
-
-const tree = new Image();
-tree.src = './img/tree.png'
+const { tree } = imgs
 
 class World {
     constructor (width, height, tileSize) {
@@ -18,12 +15,6 @@ class World {
         for (let i = 0; i < this.width; i++) {
             this.worldmap[i] = new Array(this.height)
         }
-    }
-
-    cat = {
-        centerX: 0,
-        centerY: 0,
-        img: cat
     }
 
     tree = {
@@ -66,7 +57,14 @@ class World {
         )
     }
 
-    movePlayer(dx, dy) {
+    movePlayer(dx, dy, action) {
+        if (action === 'move-right') {
+            this.player.attr.move_right = true
+            this.player.attr.move_left = false
+        } else if (action === 'move-left') {
+            this.player.attr.move_right = false
+            this.player.attr.move_left = true
+        }
         let tempPlayer = this.player.copyPlayer();
         tempPlayer.move(dx, dy);
         let entity = this.getEntityAtLocation(tempPlayer.x, tempPlayer.y);
@@ -107,7 +105,6 @@ class World {
             entity.draw(ctx)
         })
 
-        ctx.drawImage(this.cat.img, this.entities[0].x * 16, this.entities[0].y * 16, 16, 16)
     }
 
     drawWall(ctx, x, y) {

@@ -1,8 +1,9 @@
 import Entity from './Entity'
 import Spawner from './Spawner'
+import imgs from './Images'
 
-const portal = new Image();
-portal.src = './img/portal.png'
+const { portal } = imgs
+
 
 class Stairs extends Entity {
     attr = { name: 'Stairs', img: portal, ascii: '>', offset: {x: 2, y: 3}}

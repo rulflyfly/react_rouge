@@ -20,6 +20,43 @@ class Monster extends Entity {
             }
         }
     }
+
+    spot = this.x
+    spot_left = this.x + 2;
+    spot_right = this.x - 2;
+
+    walk(map) {
+        let fantomMonster = {...this}
+        let direction = Math.floor(Math.random()*4)
+        
+        switch (direction) {
+            case 0: 
+                fantomMonster.x-=1
+            break;
+            case 1:
+                fantomMonster.y-=1
+            break;
+            case 2:
+                fantomMonster.x+=1
+            break;
+            case 3:
+                fantomMonster.y+=1
+            break;
+            default:
+            break;
+        }
+
+        let x = fantomMonster.x
+        let y = fantomMonster.y
+        
+
+        if (map[x][y] === 0) {
+            this.x = x;
+            this.y = y
+        } else {
+            console.log('cannot move')
+        }
+    }
 }
 
 export default Monster;
