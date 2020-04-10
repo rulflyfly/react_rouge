@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Kanit&display=swap');
+
+#root {
+    margin-top: 5vh;
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+ canvas {
+    grid-column: 2;
+}
+
+.inventory {
+    grid-column: 1;
+    margin-left: 1rem;
+}
+
+
+body {
+    background: black;
+    color: white;
+    font-family: 'Kanit', sans-serif;
+}
+
+button {
+    font-family: 'Kanit', sans-serif;
+    width: 4rem;
+    font-size: 1rem;
+}

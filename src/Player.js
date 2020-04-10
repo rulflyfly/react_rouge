@@ -15,7 +15,8 @@ class Player extends Entity {
         img: cat,
         img_left: cat_left,
         move_left: false,
-        move_right: true
+        move_right: true,
+        coins: 0
     }
 
     move(dx, dy) { 
@@ -26,6 +27,9 @@ class Player extends Entity {
 
     add(item){
         this.inventory.push(item)
+        if (item.attr.name === 'Gold Coin') {
+            this.attr.coins += 1
+        }
     }
 
     copyPlayer(){

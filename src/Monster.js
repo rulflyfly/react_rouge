@@ -25,7 +25,7 @@ class Monster extends Entity {
     spot_left = this.x + 2;
     spot_right = this.x - 2;
 
-    walk(map) {
+    walk(map, otherFolks) {
         let fantomMonster = {...this}
         let direction = Math.floor(Math.random()*4)
         
@@ -46,15 +46,16 @@ class Monster extends Entity {
             break;
         }
 
+
         let x = fantomMonster.x
         let y = fantomMonster.y
-        
 
-        if (map[x][y] === 0) {
-            this.x = x;
-            this.y = y
-        } else {
-            console.log('cannot move')
+        if (otherFolks) {
+            let entity = otherFolks.find(entity => entity.x === x && entity.y === y)
+            if (map[x][y] === 0 && !entity) {
+                this.x = x;
+                this.y = y
+            }
         }
     }
 }

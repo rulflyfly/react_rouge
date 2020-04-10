@@ -10,14 +10,32 @@ const ReactRouge = ({width, height, tileSize}) => {
     let inputManager = new InputManager();
 
     const [world, setWorld] = useState(new World(width, height, tileSize))
+    const [play, setPlay] = useState(false)
+    const [pause, setPause] = useState(false)
+    const [lose, setLose] = useState(false)
 
     
 
     const handleInput = (action, data) => {
-        let newWorld = new World();
-        Object.assign(newWorld, world);
-        newWorld.movePlayer(data.x, data.y, action);
-        setWorld(newWorld);
+        if (action === 'change-game-state') {
+            if (!play && !lose && !pause ) {
+                setPlay(true)
+                setPause(false)
+            } else if (!data && !lose) {
+                if (!pause) {
+                    setPlay(false)
+                    setPause(true)
+                } else {
+                    setPlay(true)
+                    setPause(false)
+                }
+            } 
+        } else if (!pause && !lose) {
+            let newWorld = new World();
+            Object.assign(newWorld, world);
+            newWorld.movePlayer(data.x, data.y, action);
+            setWorld(newWorld);
+        }
     }
 
     UseInterval(() => {
@@ -25,7 +43,7 @@ const ReactRouge = ({width, height, tileSize}) => {
         Object.assign(newWorld, world);
         for (let i = 0; i < newWorld.entities.length; i++) {
             if (newWorld.entities[i].walk) {
-                newWorld.entities[i].walk(newWorld.worldmap)
+                newWorld.entities[i].walk(newWorld.worldmap, newWorld.entities)
                 
             } 
             setWorld(newWorld);
@@ -67,31 +85,55 @@ const ReactRouge = ({width, height, tileSize}) => {
     useEffect(() => {
         const ctx = canvasRef.current.getContext('2d')
         ctx.clearRect(0, 0, width*tileSize, height*tileSize)
-        world.draw(ctx)
+        
+       
+    
+        if (!play) {
+            if (!pause) {
+                console.log(`press spacebar to start`)
+            } else {
+                console.log(`press spacebar to unpause`)
+            }
+        } else {
+            world.draw(ctx)
+            if (world.player.attr.health === 0) {
+                console.log('you lost the game')
+                setLose(true)
+            }
+        }
     })
+
+    
     return (
-        <div>
+        <React.Fragment>
+            <div className='inventory'>
+                <p>Health: {world.player.attr.health}</p>
+                <p>Coins: {world.player.attr.coins}</p>
+                <button>Shop</button>
+
+                {/* <ul>
+                    {world.player.inventory.map((item, index) =>{
+                        return (
+                            <li key={index}>{item.attr.name}</li>
+                        )
+                    })}
+                </ul> */}
+             </div>
             <canvas 
                 ref={canvasRef}
                 width={width*tileSize} 
                 height={height*tileSize}
-                style={{background: 'DimGrey'}}>
+                style={{background: '#9fbfb9'}}>
              </canvas>
-             <ul>
-                 {world.player.inventory.map((item, index) =>{
-                     return (
-                         <li key={index}>{item.attr.name}</li>
-                     )
-                 })}
-             </ul>
-             <ul>
+             
+             {/* <ul>
                  {world.history.map((item, index) =>{
                      return (
                          <li key={index}>{item}</li>
                      )
                  })}
-             </ul>
-        </div>
+             </ul> */}
+        </React.Fragment>
     )
 }
     

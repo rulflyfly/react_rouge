@@ -28,6 +28,12 @@ class InputManager {
             case 40:
                 this.broadcast('move', {x: 0, y: 1});
             break;
+            case 32:
+                this.broadcast('change-game-state', true)
+            break;
+            case 27:
+                console.log(e.keyCode)
+                this.broadcast('change-game-state', false)
             default:
             break;
         }
